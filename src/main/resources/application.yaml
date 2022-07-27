@@ -1,0 +1,10 @@
+server:
+  port: 8999
+mybatis-plus:
+  mapper-locations: classpath*:/com/ed/demo/i18ndemo/mapper/*.xml
+spring:
+  datasource:
+    driverClassName: com.mysql.cj.jdbc.Driver
+    username: root
+    password: '#Love1992'
+    url: jdbc:mysql://localhost:3306/i18n?characterEncoding=UTF-8&useUnicode=true&useSSL=false&tinyInt1isBit=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai

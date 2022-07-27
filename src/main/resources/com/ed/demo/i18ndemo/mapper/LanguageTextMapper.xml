@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ed.demo.i18ndemo.mapper.LanguageTextMapper">
+  <resultMap id="BaseResultMap" type="com.ed.demo.i18ndemo.entity.LanguageText">
+    <!--@mbg.generated-->
+    <!--@Table language_text-->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="type" jdbcType="TINYINT" property="type" />
+    <result column="model" jdbcType="VARCHAR" property="model" />
+    <result column="key" jdbcType="VARCHAR" property="key" />
+    <result column="langs" jdbcType="LONGVARCHAR" property="langs" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, `type`, model, `key`, langs
+  </sql>
+
+  <insert id="batchInsert" keyColumn="id" keyProperty="id" parameterType="map" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into language_text
+    (`type`, model, `key`, langs)
+    values
+    <foreach collection="list" item="item" separator=",">
+      (#{item.type,jdbcType=TINYINT}, #{item.model,jdbcType=VARCHAR}, #{item.key,jdbcType=VARCHAR},
+      #{item.langs,jdbcType=LONGVARCHAR})
+    </foreach>
+  </insert>
+
+  <update id="batchUpdate">
+    update language_text
+    <trim prefix="set" suffixOverrides=",">
+      <trim prefix="`type` = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.type,jdbcType=TINYINT}
+        </foreach>
+      </trim>
+      <trim prefix="model = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.model,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="`key` = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.key,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="langs = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.langs,jdbcType=LONGVARCHAR}
+        </foreach>
+      </trim>
+    </trim>
+    where id in
+    <foreach close=")" collection="list" item="item" open="(" separator=", ">
+      #{item.id,jdbcType=BIGINT}
+    </foreach>
+  </update>
+</mapper>
